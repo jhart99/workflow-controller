@@ -23,24 +23,23 @@ podTemplate(label: 'dockerpod', containers: [
             commit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
             echo commit
             container('docker') {
-                    stage("build workflow-controller") {
-                            sh """
-                            docker build -t vogt1005.scripps.edu:5000/${container}:build -f Dockerfile.onbuild .
-                            id=$(docker create vogt1005.scripps.edu:5000/${container}:build)
-                            docker cp ${id}:/go/bin/workflow-controller workflow-controller
-                            docker rm -v $id
-                            docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.scratch
-                            """
-                    }
-                    stage("test $container") {
-                        sh "echo test passed"
-                    }
-                    stage("deploy $container") {
-                        sh """
-                            docker tag vogt1005.scripps.edu:5000/${container}:${commit} vogt1005.scripps.edu:5000/${container}:latest
-                            docker push vogt1005.scripps.edu:5000/${container}:latest
-                            """
-                    }
+                stage("build workflow-controller") {
+                    sh """
+                        docker build -t vogt1005.scripps.edu:5000/${container}:build -f Dockerfile.onbuild .
+                        id=$(docker create vogt1005.scripps.edu:5000/${container}:build)
+                        docker cp ${id}:/go/bin/workflow-controller workflow-controller
+                        docker rm -v $id
+                        docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.scratch
+                        """
+                }
+                stage("test $container") {
+                    sh "echo test passed"
+                }
+                stage("deploy $container") {
+                    sh """
+                        docker tag vogt1005.scripps.edu:5000/${container}:${commit} vogt1005.scripps.edu:5000/${container}:latest
+                        docker push vogt1005.scripps.edu:5000/${container}:latest
+                        """
                 }
             }
     }
