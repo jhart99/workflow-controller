@@ -26,6 +26,9 @@ all: build
 
 build: ${ARTIFACT}
 
+dockerbuild: ${ARTIFACT}
+	docker build -f Dockerfile.onbuild -t $(PREFIX):$(TAG) .
+
 ${ARTIFACT}: ${SOURCES}
 	CGO_ENABLED=0 GOOS=linux godep go build -i -installsuffix cgo -ldflags '-w' -o ${ARTIFACT} ./main.go
 

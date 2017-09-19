@@ -1,0 +1,3 @@
+FROM scratch
+ADD workflow-controller /
+CMD ["/workflow-controller"]
