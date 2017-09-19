@@ -1,0 +1,12 @@
+apiVersion: authorization.k8s.io/v1
+kind: SubjectAccessReview
+spec:
+    resourceAttributes:
+        namespace: default
+        verb: create
+        resource: thirdpartyresources.extensions
+    user: system:serviceaccount:kube-system:workflow-controller
+    groups:
+        - system:serviceaccounts
+        - system:serviceaccounts:kube-system
+        - system:authenticated

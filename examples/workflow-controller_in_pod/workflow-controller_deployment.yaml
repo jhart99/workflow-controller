@@ -2,9 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: workflow-controller-deployment
+  namespace: kube-system
 spec:
   replicas: 1
-  strategy: 
+  strategy:
     type: Recreate
   template:
     metadata:
@@ -14,6 +15,5 @@ spec:
       serviceAccount: workflow-controller
       containers:
       - name: workflow-controller
-        image: sdminonne/workflow-controller:0.0
-        args: ["--resource-versions=v1", "--domain=example.com", "--name=workflow"]
-      
+        image: vogt1005.scripps.edu:5000/workflow-controller
+        args: ["./workflow-controller", "--resource-versions=v1", "--domain=example.com", "--name=workflow"]

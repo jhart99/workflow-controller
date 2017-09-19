@@ -17,7 +17,7 @@ ARTIFACT=workflow-controller
 # 0.0 shouldn't clobber any released builds
 TAG = 0.0
 #PREFIX = gcr.io/google_containers/${ARTIFACT}
-PREFIX =  sdminonne/${ARTIFACT}
+PREFIX =  vogt1005.scripps.edu:5000/${ARTIFACT}
 
 SOURCES := $(shell find $(SOURCEDIR) ! -name "*_test.go" -name '*.go')
 
@@ -34,7 +34,7 @@ container: build
 
 push: container
 	@echo "He we should push..."
-	#docker push $(PREFIX):$(TAG)
+	docker push $(PREFIX):$(TAG)
 	#gcloud docker push $(PREFIX):$(TAG)
 
 depend:
