@@ -1,5 +1,5 @@
+def containers = ["workflow-controller"]
 def dversion = '1.12.6'
-def container = 'workflowcontroller'
 podTemplate(label: 'dockerpod', containers: [
         containerTemplate(name: 'docker',
             image: "docker:${dversion}",
@@ -13,13 +13,31 @@ podTemplate(label: 'dockerpod', containers: [
         hostPathVolume(hostPath: '/var/run/docker.sock',
             mountPath: '/var/run/docker.sock')]
         ) {
+    //git url: "https://github.com/jhart99/arachne.git"
+    //    sh "git rev-parse HEAD > .git/commit-id"
+    //    def commit_id = readFile('.git/commit-id').trim()
+    //    println commit_id
+
     node('dockerpod') {
         checkout scm
             commit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
             echo commit
             container('docker') {
-                stage("build") {
-                    sh "echo test"
+                for (container in containers) {
+                    stage("build $container") {
+                        dir("docker/${container}/docker"){
+                            sh "docker build -t vogt1005.scripps.edu:5000/${container}:${commit} ."
+                        }
+                    }
+                    stage("test $container") {
+                        sh "echo test passed"
+                    }
+                    stage("deploy $container") {
+                        sh """
+                            docker tag vogt1005.scripps.edu:5000/${container}:${commit} vogt1005.scripps.edu:5000/${container}:latest
+                            docker push vogt1005.scripps.edu:5000/${container}:latest
+                            """
+                    }
                 }
             }
     }
