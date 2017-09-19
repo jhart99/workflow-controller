@@ -1,5 +1,5 @@
 def dversion = '1.12.6'
-def container = 'workflow-controller'
+def container = 'workflowcontroller'
 podTemplate(label: 'dockerpod', containers: [
         containerTemplate(name: 'docker',
             image: "docker:${dversion}",
@@ -18,8 +18,8 @@ podTemplate(label: 'dockerpod', containers: [
             commit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
             echo commit
             container('docker') {
-                stage("build workflow-controller") {
-                    sh(script: "docker build -t workflow-controller:build -f Dockerfile.onbuild .")
+                stage("build") {
+                    sh "echo test"
                 }
             }
     }
