@@ -24,8 +24,8 @@ podTemplate(label: 'dockerpod', containers: [
             echo commit
             container('docker') {
                 stage("build workflow-controller") {
+                    sh "docker build -t vogt1005.scripps.edu:5000/${container}:build -f Dockerfile.onbuild ."
                     sh """
-                        docker build -t vogt1005.scripps.edu:5000/${container}:build -f Dockerfile.onbuild .
                         id=$(docker create vogt1005.scripps.edu:5000/${container}:build)
                         docker cp ${id}:/go/bin/workflow-controller workflow-controller
                         docker rm -v $id
