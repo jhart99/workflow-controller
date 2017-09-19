@@ -17,3 +17,4 @@ spec:
       - name: workflow-controller
         image: vogt1005.scripps.edu:5000/workflow-controller
         args: ["./workflow-controller", "--resource-versions=v1", "--domain=example.com", "--name=workflow"]
+        imagePullPolicy: Always
