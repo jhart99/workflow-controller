@@ -27,15 +27,15 @@ podTemplate(label: 'dockerpod', containers: [
 //                        docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.scratch
 //                        """
                 }
-                stage("test $container") {
-                    sh "echo test passed"
-                }
-                stage("deploy $container") {
-                    sh """
-                        docker tag vogt1005.scripps.edu:5000/${container}:${commit} vogt1005.scripps.edu:5000/${container}:latest
-                        docker push vogt1005.scripps.edu:5000/${container}:latest
-                        """
-                }
+//                stage("test $container") {
+//                    sh "echo test passed"
+//                }
+//                stage("deploy $container") {
+//                    sh """
+//                        docker tag vogt1005.scripps.edu:5000/${container}:${commit} vogt1005.scripps.edu:5000/${container}:latest
+//                        docker push vogt1005.scripps.edu:5000/${container}:latest
+//                        """
+//                }
             }
     }
 }
