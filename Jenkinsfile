@@ -25,13 +25,13 @@ podTemplate(label: 'dockerpod', containers: [
             container('docker') {
                 for (container in containers) {
                     stage("build $container") {
-                            sh "docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.onbuild ."
+                        sh "docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.onbuild ."
                             id = sh(returnStdout: true, script: "docker create vogt1005.scripps.edu:5000/${container}:${commit}").trim()
                             sh """
-                                docker cp $id:/go/bin/workflow-controller workflow-controller
-                                docker rm -v $id
-                                docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.scratch .
-                                """}
+                            docker cp $id:/go/bin/workflow-controller workflow-controller
+                            docker rm -v $id
+                            docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.scratch .
+                            """
                     }
                     stage("test $container") {
                         sh "echo test passed"
