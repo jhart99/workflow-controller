@@ -19,23 +19,8 @@ podTemplate(label: 'dockerpod', containers: [
             echo commit
             container('docker') {
                 stage("build workflow-controller") {
-                    sh "docker build -t workflow-controller:build -f Dockerfile.onbuild ."
-//                    sh """
-//                        id=\$(docker create vogt1005.scripps.edu:5000/${container}:build)
-//                        docker cp ${id}:/go/bin/workflow-controller workflow-controller
-//                        docker rm -v $id
-//                        docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.scratch
-//                        """
+                    sh(script: "docker build -t workflow-controller:build -f Dockerfile.onbuild .")
                 }
-//                stage("test $container") {
-//                    sh "echo test passed"
-//                }
-//                stage("deploy $container") {
-//                    sh """
-//                        docker tag vogt1005.scripps.edu:5000/${container}:${commit} vogt1005.scripps.edu:5000/${container}:latest
-//                        docker push vogt1005.scripps.edu:5000/${container}:latest
-//                        """
-//                }
             }
     }
 }
