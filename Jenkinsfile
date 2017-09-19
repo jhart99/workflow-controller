@@ -34,7 +34,7 @@ podTemplate(label: 'dockerpod', containers: [
                             """
                     }
                     stage("test $container") {
-                        sh "echo test passed"
+                        sh " echo tests passed"
                     }
                     stage("deploy $container") {
                         sh """
