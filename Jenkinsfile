@@ -25,9 +25,7 @@ podTemplate(label: 'dockerpod', containers: [
             container('docker') {
                 for (container in containers) {
                     stage("build $container") {
-                        dir("docker/${container}/docker"){
                             sh "docker build -t vogt1005.scripps.edu:5000/${container}:${commit} ."
-                        }
                     }
                     stage("test $container") {
                         sh "echo test passed"
