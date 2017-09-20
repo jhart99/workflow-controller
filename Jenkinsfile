@@ -28,7 +28,7 @@ podTemplate(label: 'dockerpod', containers: [
                         sh "docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.onbuild ."
                             id = sh(returnStdout: true, script: "docker create vogt1005.scripps.edu:5000/${container}:${commit}").trim()
                             sh """
-                            docker cp $id:/go/bin/workflow-controller workflow-controller
+                            docker cp $id:/go/workflow-controller workflow-controller
                             docker rm -v $id
                             docker build -t vogt1005.scripps.edu:5000/${container}:${commit} -f Dockerfile.scratch .
                             """
