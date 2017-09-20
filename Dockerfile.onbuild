@@ -1,3 +1,7 @@
-FROM golang:latest
-RUN go get github.com/sdminonne/workflow-controller
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' src/github.com/sdminonne/workflow-controller/main.go
+FROM golang:1.8.3-alpine
+RUN apk add -U git \
+    && go get github.com/sdminonne/workflow-controller \
+    && apk del git \
+    && rm -rf /var/cache/apk/* tmp/* \
+
+RUN CGO_ENABLED=0 GODEBUG=netdns=go go build -v -o workflow-controller src/github.com/sdminonne/workflow-controller/main.go
